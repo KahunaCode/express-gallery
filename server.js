@@ -7,9 +7,11 @@ const db = require('./models');
 const Gallery = db.Gallery;
 
 const app = express();
+app.use(bp.urlencoded());
 
 const galleryRoutes = require('./routes/galleryRoutes.js');
 
+app.use('/', galleryRoutes);
 
 const server = app.listen(PORT, () =>{
   db.sequelize.sync();
