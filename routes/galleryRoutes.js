@@ -8,6 +8,17 @@ const db = require('../models');
 const Gallery = db.Gallery;
 
 router
+.get('/gallery/:id', (req,res) =>{
+  Gallery.findById(parseInt(req.params.id))
+    .then((pic) =>{
+      console.log(pic);
+      res.end();
+    })
+    .catch((err) =>{
+      console.log(err);
+    });
+})
+
 .get('/', (req,res) =>{
   console.log('getting from /');
   Gallery.findAll()
@@ -19,7 +30,7 @@ router
     console.log(err);
   });
 })
-.post('/', (req,res) =>{
+.post('/gallery', (req,res) =>{
   Gallery.create({
     author: req.body.author,
     link: req.body.link,
