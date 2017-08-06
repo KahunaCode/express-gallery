@@ -37,7 +37,7 @@ router
   Gallery.findAll()
   .then((gallery) => {
     console.log(gallery);
-    res.end();
+    res.render('index', {gallery:gallery});
   })
   .catch((err) =>{
     console.log(err);
