@@ -18,7 +18,6 @@ router
       console.log(err);
     });
 })
-
 .get('/', (req,res) =>{
   console.log('getting from /');
   Gallery.findAll()
@@ -39,6 +38,7 @@ router
   .then((data) =>{
     console.log(data);
     console.log('inserted a new record');
+    res.end();
   })
   .catch((err) => {
     console.log(err);
