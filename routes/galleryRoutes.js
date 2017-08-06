@@ -48,6 +48,7 @@ router
 })
 .post('/gallery', (req,res) =>{
   Gallery.create({
+    title: req.body.title,
     author: req.body.author,
     link: req.body.link,
     description: req.body.description
