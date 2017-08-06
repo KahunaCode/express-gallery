@@ -17,21 +17,18 @@ router
 })
 .get('/gallery/new', (req,res) =>{
   console.log('GET gallery/new');
-
-  //insert stuff here to generate the form for a new pic and then submit it
-
-  res.end();
+  res.render('new');
 })
 .get('/gallery/:id', (req,res) =>{
   Gallery.findById(parseInt(req.params.id))
     .then((detail) =>{
       console.log('detail is', detail);
       var toRender = {
+        title: detail.title,
         author: detail.author,
         link: detail.link,
         description: detail.description
       };
-      //res.end();
       res.render('detail', toRender);
     })
     .catch((err) =>{
