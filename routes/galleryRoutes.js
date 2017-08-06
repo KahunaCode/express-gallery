@@ -60,6 +60,15 @@ router
 })
 .put('/gallery/:id', (req,res) =>{
   console.log(`PUT request for ${req.params.id}`);
+
+  //do the PUT things here. submit an update for this ID
+
+})
+.delete('/gallery/:id', (req,res) => {
+  console.log(`DELETE id number ${req.params.id}`);
+
+  //do the delete things here
+
 });
 
 module.exports = router;
