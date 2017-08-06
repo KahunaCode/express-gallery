@@ -27,8 +27,8 @@ Any user should be able to access these routes:
     - `author` : Text
     - `link` : Text (the image url)
     - `description` : TextArea
-- `PUT /gallery/:id` updates a single gallery photo identified by the `:id` param
-- `DELETE /gallery/:id` to delete a single gallery photo identified by the `:id` param
+//- `PUT /gallery/:id` updates a single gallery photo identified by the `:id` param
+//- `DELETE /gallery/:id` to delete a single gallery photo identified by the `:id` param
 
 ---
 
