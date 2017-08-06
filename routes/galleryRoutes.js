@@ -24,9 +24,15 @@ router
 })
 .get('/gallery/:id', (req,res) =>{
   Gallery.findById(parseInt(req.params.id))
-    .then((pic) =>{
-      console.log(pic);
-      res.end();
+    .then((detail) =>{
+      console.log('detail is', detail);
+      var toRender = {
+        author: detail.author,
+        link: detail.link,
+        description: detail.description
+      };
+      //res.end();
+      res.render('detail', toRender);
     })
     .catch((err) =>{
       console.log(err);
