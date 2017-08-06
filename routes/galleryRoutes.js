@@ -57,6 +57,9 @@ router
   .catch((err) => {
     console.log(err);
   });
+})
+.put('/gallery/:id', (req,res) =>{
+  console.log(`PUT request for ${req.params.id}`);
 });
 
 module.exports = router;
