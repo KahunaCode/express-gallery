@@ -8,6 +8,20 @@ const db = require('../models');
 const Gallery = db.Gallery;
 
 router
+.get('/gallery/:id/edit', (req,res) =>{
+  console.log(`GET edit page for id ${req.params.id}`);
+
+  //bring up an edit page for the ID queried and update the field forms
+
+  res.end();
+})
+.get('/gallery/new', (req,res) =>{
+  console.log('GET gallery/new');
+
+  //insert stuff here to generate the form for a new pic and then submit it
+
+  res.end();
+})
 .get('/gallery/:id', (req,res) =>{
   Gallery.findById(parseInt(req.params.id))
     .then((pic) =>{
