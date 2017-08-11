@@ -10,10 +10,33 @@ const Gallery = db.Gallery;
 router
 .get('/gallery/:id/edit', (req,res) =>{
   console.log(`GET edit page for id ${req.params.id}`);
-
+  Gallery.findById(parseInt(req.params.id))
+  .then((photo) =>{
+    console.log('querying for detail by ID');
+    res.render('edit', {photo: photo});
+  }).catch((err) =>{
+    console.log(err);
+  });
   //bring up an edit page for the ID queried and update the field forms
 
-  res.end();
+  // res.end();
+})
+.put('/gallery/:id/edit', (req,res) =>{
+  console.log('PUT sent to put route');
+  Gallery.update({
+    title: req.body.title,
+    author: req.body.author,
+    link: req.body.link,
+    description: req.body.description
+  }, {where: {
+    id: req.params.id
+  }})
+  .then((gallery) =>{
+    res.redirect(`/gallery/${req.params.id}`);
+  })
+  .catch((err) =>{
+    console.log(err);
+  });
 })
 .get('/gallery/new', (req,res) =>{
   console.log('GET gallery/new');
@@ -62,12 +85,12 @@ router
     console.log(err);
   });
 })
-.put('/gallery/:id', (req,res) =>{
-  console.log(`PUT request for ${req.params.id}`);
+// .put('/gallery/:id', (req,res) =>{
+//   console.log(`PUT request for ${req.params.id}`);
 
   //do the PUT things here. submit an update for this ID
 
-})
+//})
 .delete('/gallery/:id', (req,res) => {
   console.log(`DELETE id number ${req.params.id}`);
 
