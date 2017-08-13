@@ -97,4 +97,14 @@ router
   }
 );
 
+function userAuthenticated(req, res, next){
+  if (req.isAuthenticated()){
+    console.log('user is good');
+    next();
+  }else{
+    console.log('user not good');
+    res.redirect('/login');
+  }
+}
+
 module.exports = router;
