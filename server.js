@@ -24,6 +24,8 @@ app.set('view engine', 'hbs');
 
 app.use(bp.urlencoded());
 
+app.use(express.static('public'));
+
 const galleryRoutes = require('./routes/galleryRoutes.js');
 
 app.use(methodOverride('X-HTTP-Method-Override'));
@@ -41,55 +43,7 @@ app.use(methodOverride(function (req, res) {
 
 app.use('/', galleryRoutes);
 
-app.use(passport.initialize());
-app.use(passport.session());
 
-passport.use(new LocalStrategy(
-  function (username, password, done){
-    console.log('client side username', username);
-    console.log('clint side password', password);
-
-    User.findOne({
-      where: {
-        username: username// where db column username is equal to function's username
-      }
-
-    }).then((user) =>{
-      if (user.password === password){//if user object's password === password given from payload
-        console.log('username and password successful using database');
-        return done(null, user);
-      }else{
-        console.log('password was incorrect');
-        return done(null, false, {message: 'incorrect password'});
-      }
-    }).catch((err)=>{
-      console.log('user not found');
-      console.log(err);
-      return done(null, false, {message: 'incorrect username'});
-    });
-  }
-));
-
-passport.serializeUser(function(user, done) {
-  console.log('serializing the user into session');
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(userId, done) {
-  console.log('adding user information into req object');
-  User.findOne({
-    where: {
-      id: userId
-    }
-  }).then((user) =>{
-    return done(null, {
-      id: user.id,
-      username: user.username
-    });
-  }).catch((err)=>{
-    done(err, user);
-  });
-});
 
 
 const server = app.listen(PORT, () =>{
