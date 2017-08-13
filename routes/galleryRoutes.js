@@ -12,8 +12,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const app = express();
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 router
 .get('/login', (req,res) =>{
@@ -23,7 +22,7 @@ router
   successRedirect: '/gallery/new',
   failureRedirect: '/login'
 }))
-.get('/gallery/:id/edit', (req,res) =>{
+.get('/gallery/:id/edit', userAuthenticated, (req,res) =>{
   console.log(`GET edit page for id ${req.params.id}`);
   Gallery.findById(parseInt(req.params.id))
   .then((photo) =>{
@@ -33,7 +32,7 @@ router
     console.log(err);
   });
 })
-.put('/gallery/:id/edit', (req,res) =>{
+.put('/gallery/:id/edit', userAuthenticated, (req,res) =>{
   console.log('PUT sent to put route');
   Gallery.update({
     title: req.body.title,
@@ -97,7 +96,7 @@ router
     console.log(err);
   });
 })
-.delete('/gallery/:id', (req,res) => {
+.delete('/gallery/:id', userAuthenticated, (req,res) => {
   console.log(`DELETE id number ${req.params.id}`);
   Gallery.destroy({
     where:{

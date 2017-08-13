@@ -3,16 +3,20 @@
 const express = require('express');
 const bp = require('body-parser');
 const methodOverride = require('method-override');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const exphbs = require('express-handlebars');
 
 const PORT = process.env.PORT || 3000;
 const db = require('./models');
 const {Gallery, User} = db;
 
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-
 const app = express();
-const exphbs = require('express-handlebars');
+
+app.use(session({
+  secret: 'keyboard cat'
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -75,6 +79,7 @@ passport.use(new LocalStrategy(
 
 passport.serializeUser(function(user, done) {
   console.log('serializing the user into session');
+  // console.log(user)
   done(null, user.id);
 });
 
