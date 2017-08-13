@@ -13,7 +13,6 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const app = express();
 
-
 router
 .get('/login', (req,res) =>{
   res.sendFile(path.resolve('./public/login.html'));
@@ -88,7 +87,6 @@ router
     description: req.body.description
   })
   .then((data) =>{
-    //console.log(data);
     console.log('inserted a new record');
     res.end();
   })

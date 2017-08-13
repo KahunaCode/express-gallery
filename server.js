@@ -79,7 +79,6 @@ passport.use(new LocalStrategy(
 
 passport.serializeUser(function(user, done) {
   console.log('serializing the user into session');
-  // console.log(user)
   done(null, user.id);
 });
 
@@ -98,7 +97,6 @@ passport.deserializeUser(function(userId, done) {
     done(err, user);
   });
 });
-
 
 const server = app.listen(PORT, () =>{
   db.sequelize.sync();
