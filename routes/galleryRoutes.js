@@ -6,7 +6,7 @@ const bp = require('body-parser');
 const path = require('path');
 
 const db = require('../models');
-const {Gallery, User} = db;
+const Gallery = db.Gallery;
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -15,60 +15,12 @@ const app = express();
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy(
-  function (username, password, done){
-    console.log('client side username', username);
-    console.log('client side password', password);
-    User.findOne({
-      where: {
-        username: username// where db column username is equal to function's username
-      }
-    }).then((user) =>{
-      if (user.password === password){//if user object's password === password given from payload
-        console.log('username and password successful using database');
-        return done(null, user);
-      }else{
-        console.log('password was incorrect');
-        return done(null, false, {message: 'incorrect password'});
-      }
-    }).catch((err)=>{
-      console.log('user not found');
-      console.log(err);
-      return done(null, false, {message: 'incorrect username'});
-    });
-  }
-));
-
-passport.serializeUser(function(user, done) {
-  console.log('serializing the user into session');
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(userId, done) {
-  console.log('adding user information into req object');
-  User.findOne({
-    where: {
-      id: userId
-    }
-  }).then((user) =>{
-    return done(null, {
-      id: user.id,
-      username: user.username
-    });
-  }).catch((err)=>{
-    done(err, user);
-  });
-});
-
-
-
-
 router
 .get('/login', (req,res) =>{
   res.sendFile(path.resolve('./public/login.html'));
 })
 .post('/login', passport.authenticate('local', {
-  successRedirect: '/edit',
+  successRedirect: '/gallery/new',
   failureRedirect: '/login'
 }))
 .get('/gallery/:id/edit', (req,res) =>{
