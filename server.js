@@ -8,6 +8,9 @@ const PORT = process.env.PORT || 3000;
 const db = require('./models');
 const Gallery = db.Gallery;
 
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 const app = express();
 const exphbs = require('express-handlebars');
 
@@ -37,6 +40,12 @@ app.use(methodOverride(function (req, res) {
 }));
 
 app.use('/', galleryRoutes);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
 
 const server = app.listen(PORT, () =>{
   db.sequelize.sync();

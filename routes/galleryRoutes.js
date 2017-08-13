@@ -17,9 +17,6 @@ router
   }).catch((err) =>{
     console.log(err);
   });
-  //bring up an edit page for the ID queried and update the field forms
-
-  // res.end();
 })
 .put('/gallery/:id/edit', (req,res) =>{
   console.log('PUT sent to put route');
@@ -77,7 +74,7 @@ router
     description: req.body.description
   })
   .then((data) =>{
-    console.log(data);
+    //console.log(data);
     console.log('inserted a new record');
     res.end();
   })
@@ -85,17 +82,19 @@ router
     console.log(err);
   });
 })
-// .put('/gallery/:id', (req,res) =>{
-//   console.log(`PUT request for ${req.params.id}`);
-
-  //do the PUT things here. submit an update for this ID
-
-//})
 .delete('/gallery/:id', (req,res) => {
   console.log(`DELETE id number ${req.params.id}`);
-
-  //do the delete things here
-
-});
+  Gallery.destroy({
+    where:{
+      id: req.params.id
+    }})
+  .then((data)=>{
+    console.log('deleted a record');
+  })
+  .catch((err) =>{
+    console.log(err);
+  });
+  }
+);
 
 module.exports = router;
