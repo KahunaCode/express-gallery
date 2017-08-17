@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const exphbs = require('express-handlebars');
+const bcrypt = require('bcrypt');
 
 const PORT = process.env.PORT || 3000;
 const db = require('./models');
@@ -62,13 +63,13 @@ passport.use(new LocalStrategy(
         username: username// where db column username is equal to function's username
       }
     }).then((user) =>{
-      if (user.password === password){//if user object's password === password given from payload
-        console.log('username and password successful using database');
-        return done(null, user);
-      }else{
-        console.log('password was incorrect');
-        return done(null, false, {message: 'incorrect password'});
-      }
+      bcrypt.compare(password, user.password)
+        .then(result =>{
+          console.log('username/pw correct');
+          return done(null, user);
+        }).catch(err =>{
+          return done(null, false, {message: 'incorrect password'});
+        });
     }).catch((err)=>{
       console.log('user not found');
       console.log(err);

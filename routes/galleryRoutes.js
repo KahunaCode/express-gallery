@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const bp = require('body-parser');
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 const db = require('../models');
 const Gallery = db.Gallery;
@@ -14,6 +15,26 @@ const LocalStrategy = require('passport-local').Strategy;
 const app = express();
 
 router
+.post('/login/new', (req,res) =>{
+  bcrypt.genSalt(10)
+    .then(salt =>{
+      bcrypt.hash(req.body.password, salt)
+        .then(hash =>{
+          console.log(hash);
+          db.User.create({
+            username: req.body.username,
+            password: hash
+          })
+          .then(() =>{
+            console.log('inserted a new user');
+            res.end();
+          }).catch(err =>{
+            console.log(err);
+          });
+        });
+    });
+})
+
 .get('/login', (req,res) =>{
   res.sendFile(path.resolve('./public/login.html'));
 })
