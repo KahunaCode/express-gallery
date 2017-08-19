@@ -1,6 +1,6 @@
 <h5>Make a new entry</h5>
 
-<form action="/gallery/{{id}}" method="post">
+<form action="/gallery" method="post">
   <label for="title">Title</label>
   <br>
   <input type="text" id="title" name="title" placeholder="Enter a title">
@@ -21,5 +21,16 @@
   <input type="text" id="desc" name="desc" placeholder="Description">
   <br>
   <br>
+  <div class="add_meta_field">
+  <ul id="meta_fields"></ul>
+
+  <button id="add_meta_field_button" type="button" >Add Meta Data</button>
+
   <input type="submit" value="submit" method="POST">
+
+
+</div>
+
 </form>
+
+<script src="/js/metaFields.js"></script>

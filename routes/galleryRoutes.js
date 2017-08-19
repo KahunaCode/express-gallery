@@ -11,7 +11,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const db = require('../models');
 const Gallery = db.Gallery;
 
-const photoMeta = require('../collections/photoMeta').photoMeta;
+const photoMetas = require('../collections/photoMeta').photoMetas;
 
 const app = express();
 
@@ -108,12 +108,28 @@ router
     description: req.body.description
   })
   .then((data) =>{
-    console.log('inserted a new record');
+    console.log('inserted a new record:', data);
+    Gallery.findAll({
+      limit: 1,
+      order: [['createdAt', 'DESC']]
+    })
+    .then((item) =>{
+      let metaObj = {
+        id: item[0].id,
+        meta: req.body.meta
+      };
+      photoMetas().insertOne(metaObj);
+    });
     res.end();
   })
   .catch((err) => {
     console.log(err);
   });
+  // let metaObj = {
+  //   id: req.params.id,
+  //   meta: req.body.meta
+  // };
+  // photoMetas().insertOne(metaObj);
 })
 .delete('/gallery/:id', userAuthenticated, (req,res) => {
   console.log(`DELETE id number ${req.params.id}`);
