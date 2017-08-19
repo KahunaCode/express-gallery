@@ -5,12 +5,13 @@ const router = express.Router();
 const bp = require('body-parser');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 const db = require('../models');
 const Gallery = db.Gallery;
 
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const photoMeta = require('../collections/photoMeta').photoMeta;
 
 const app = express();
 
@@ -34,7 +35,6 @@ router
         });
     });
 })
-
 .get('/login', (req,res) =>{
   res.sendFile(path.resolve('./public/login.html'));
 })
