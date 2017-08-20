@@ -90,7 +90,13 @@ router
         link: detail.link,
         description: detail.description
       };
-      res.render('detail', toRender);
+      photoMetas().findOne({id:parseInt(req.params.id)})
+      .then(meta =>{
+        res.render('detail', {
+          toRender: toRender,
+          meta: meta
+        });
+      });
     })
     .catch((err) =>{
       console.log(err);

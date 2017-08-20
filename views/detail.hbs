@@ -1,11 +1,14 @@
 <h1>__ARCHITEKT</h1>
 
-<div>{{title}}</div>
+<div>{{toRender.title}}</div>
 
 <div>
-  <img src="{{link}}" alt="">
+  <img src="{{toRender.link}}" alt="">
 </div>
 
-<div>{{description}}</div>
+<div>{{toRender.description}}</div>
 
-<div id="footer">copyright {{author}}</div>
+{{#if meta.meta}}
+  <h5>THERE IS METADATA!</h5>
+{{/if}}
+<div id="footer">copyright {{toRender.author}}</div>
