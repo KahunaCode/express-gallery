@@ -47,18 +47,25 @@ router
   Gallery.findById(parseInt(req.params.id))
   .then((photo) =>{
     console.log('querying for detail by ID');
-    res.render('edit', {photo: photo});
+    photoMetas().findOne({id:parseInt(req.params.id)})
+      .then(meta =>{
+        console.log('MEEETTTAAAAASSSSSSS:', meta);
+        res.render('edit', {
+      photo: photo,
+      meta: meta
+        });
+      });
   }).catch((err) =>{
     console.log(err);
   });
 })
 .put('/gallery/:id/edit', userAuthenticated, (req,res) =>{
-  console.log('PUT sent to put route');
+  console.log('PUT sent to put route', req.body);
   Gallery.update({
     title: req.body.title,
     author: req.body.author,
     link: req.body.link,
-    description: req.body.description
+    description: req.body.desc
   }, {where: {
     id: req.params.id
   }})
@@ -105,7 +112,7 @@ router
     title: req.body.title,
     author: req.body.author,
     link: req.body.link,
-    description: req.body.description
+    description: req.body.desc
   })
   .then((data) =>{
     console.log('inserted a new record:', data);
@@ -120,16 +127,11 @@ router
       };
       photoMetas().insertOne(metaObj);
     });
-    res.end();
+    res.redirect('/');
   })
   .catch((err) => {
     console.log(err);
   });
-  // let metaObj = {
-  //   id: req.params.id,
-  //   meta: req.body.meta
-  // };
-  // photoMetas().insertOne(metaObj);
 })
 .delete('/gallery/:id', userAuthenticated, (req,res) => {
   console.log(`DELETE id number ${req.params.id}`);
